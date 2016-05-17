@@ -7,12 +7,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/RealFullscreenTheme">
+
         <activity
             android:name=".GameActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme">
+            android:theme="@style/RealFullscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
