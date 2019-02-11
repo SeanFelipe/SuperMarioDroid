@@ -26,7 +26,7 @@ public class GameActivity extends Activity {
     float MARIO_START_Y, MARIO_START_Y_REVERSED;
     float marioIncrementY;
 
-    float ANIMATION_TOTAL_TIME = 1500;
+    float ANIMATION_TOTAL_TIME = 400;
     float JUMP_DISTANCE;
     float lastEasingValue;
     boolean jumpIncrementedScore = false;
