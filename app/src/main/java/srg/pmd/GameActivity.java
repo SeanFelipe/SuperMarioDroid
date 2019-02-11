@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -18,12 +19,15 @@ import android.widget.TextView;
  */
 public class GameActivity extends Activity {
 
+    final String TAG = "MarioActivity";
+
     RelativeLayout baseLayout;
     ImageView marioSmall;
     ImageView pipe;
     Typeface marioFont;
     TextView scoreDesc;
-    TextView score;
+    int score = 0;
+    TextView scoreText;
     Point screenSize;
     int centerx, centery;
 
@@ -36,6 +40,10 @@ public class GameActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game);
 
+        setupGraphics();
+    }
+
+    private void setupGraphics() {
         screenSize = new Point();
         getWindowManager().getDefaultDisplay().getSize(screenSize);
 
@@ -55,14 +63,14 @@ public class GameActivity extends Activity {
         scoreDesc.setX(scoreDescX);
         scoreDesc.setY(50);
 
-        score = findViewById(R.id.score);
-        score.setTypeface(marioFont);
-        score.setTextSize(30);
-        score.setText("0");
-        score.measure(0,0);
-        float scoreX = scoreDescX + ( scoreDesc.getMeasuredWidth() / 2 ) - score.getMeasuredWidth() / 2;
-        score.setX(scoreX);
-        score.setY(150);
+        scoreText = findViewById(R.id.score);
+        scoreText.setTypeface(marioFont);
+        scoreText.setTextSize(30);
+        scoreText.setText(Integer.toString(score));
+        scoreText.measure(0,0);
+        float scoreX = scoreDescX + ( scoreDesc.getMeasuredWidth() / 2 ) - scoreText.getMeasuredWidth() / 2;
+        scoreText.setX(scoreX);
+        scoreText.setY(150);
 
         marioSmall = new ImageView(this);
         marioSmall.setImageDrawable(getDrawable(R.drawable.mario_small));
@@ -70,6 +78,14 @@ public class GameActivity extends Activity {
         float marioy = screenSize.y - marioSmall.getDrawable().getIntrinsicHeight() - pipeHeight;
         marioSmall.setX(mariox);
         marioSmall.setY(marioy);
+        marioSmall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "marioClicked()");
+                int newScore = score++;
+                scoreText.setText(Integer.toString(newScore));
+            }
+        });
 
         baseLayout.addView(marioSmall);
     }
