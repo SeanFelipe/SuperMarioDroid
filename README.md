@@ -1,7 +1,7 @@
 ## Super Mario ... Droid ... sort of ...
 
 <p align="center">
-  <img src="https://github.com/SeanFelipe/Appiumario/raw/master/gif/mario_jump.gif">
+  <img src="https://github.com/SeanFelipe/SuperMarioDroid/raw/master/gif/mario_jump.gif">
 </p>
 
 ### An Android app for running some automation demos.
