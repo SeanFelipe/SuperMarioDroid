@@ -12,12 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.TimerTask;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 public class GameActivity extends Activity {
 
     final String TAG = "MarioActivity";
@@ -48,8 +43,6 @@ public class GameActivity extends Activity {
     float marioy;
     boolean marioJumping = false;
     String marioDirection = "up";
-
-    TimerTask clockTick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,7 +154,7 @@ public class GameActivity extends Activity {
         boolean stillJumping = true;
 
         float marioEasingY = Easing.easeOut(
-            animationElapsedTime, MARIO_START_Y_REVERSED, JUMP_DISTANCE, ANIMATION_TOTAL_TIME
+                animationElapsedTime, MARIO_START_Y_REVERSED, JUMP_DISTANCE, ANIMATION_TOTAL_TIME
         );
 
         Log.d(TAG, "lastEasingValue:: " + lastEasingValue);
@@ -184,36 +177,6 @@ public class GameActivity extends Activity {
             stillJumping = false;
         }
 
-        /*
-        if ( marioDirection == "up") {
-            boolean didWeHitTopBound = ( marioy - MARIO_INCREMENT ) < MARIO_BOUND_Y;
-            if ( ! didWeHitTopBound ) {
-                marioy -= MARIO_INCREMENT;
-                marioSmall.setY(marioy);
-            } else {
-                incrementScore();
-                marioDirection = "down";
-            }
-        } else if ( marioDirection == "down" ) {
-            boolean didWeHitBottomBound = ( marioy + MARIO_INCREMENT ) >= MARIO_START_Y;
-            if ( ! didWeHitBottomBound ) {
-                marioy += MARIO_INCREMENT;
-                marioSmall.setY(marioy);
-            } else {
-                marioDirection = "up";
-                marioy = MARIO_START_Y;
-                marioSmall.setY(marioy);
-                stillJumping = false;
-            }
-        }
-        */
-
-        /*
-        Log.d(TAG, "marioy: " + marioy);
-        Log.d(TAG, "MARIO_BOUND_Y: " + MARIO_BOUND_Y);
-        Log.d(TAG, "didWeHitTopBound: " + didWeHitTopBound);
-        */
-
         return stillJumping;
     }
 
@@ -227,6 +190,4 @@ public class GameActivity extends Activity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
     }
-
-
 }
