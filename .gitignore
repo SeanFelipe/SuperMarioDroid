@@ -40,3 +40,4 @@ build/
 
 #NDK
 obj/
+*.swp
