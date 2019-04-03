@@ -12,10 +12,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
-public class GameActivity extends Activity {
-
-    final String TAG = "MarioActivity";
+public class MarioJumpScreen extends Activity {
+    final String TAG = "MarioJumpScreen";
     final int CLOCK_TICK_MS = 100;
     float MARIO_BOUND_Y;
     float MARIO_START_Y, MARIO_START_Y_REVERSED;
@@ -51,7 +49,7 @@ public class GameActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.jump_screen);
 
         setupGraphics();
         clockTick();
@@ -61,7 +59,6 @@ public class GameActivity extends Activity {
     private void setupGraphics() {
         screenSize = new Point();
         getWindowManager().getDefaultDisplay().getSize(screenSize);
-
 
         marioFont = Typeface.createFromAsset(getAssets(),  "fonts/mario_font.ttf");
         baseLayout = findViewById(R.id.base_layout);
@@ -79,7 +76,8 @@ public class GameActivity extends Activity {
         scoreDesc.setX(scoreDescX);
         scoreDesc.setY(50);
 
-        scoreText = findViewById(R.id.score);
+        scoreText = ( TextView ) findViewById(R.id.score);
+        scoreText.setContentDescription("score");
         scoreText.setTypeface(marioFont);
         scoreText.setTextSize(44);
         scoreText.setText(Integer.toString(score));
@@ -120,7 +118,7 @@ public class GameActivity extends Activity {
         Log.d(TAG, "JUMP_DISTANCE: " + JUMP_DISTANCE);
         MARIO_START_Y_REVERSED = screenSize.y - MARIO_START_Y;
         Log.d(TAG, "MARIO_START_Y_REVERSED: " + MARIO_START_Y_REVERSED);
-     }
+    }
 
     private void clockTick() {
         new android.os.Handler().postDelayed(
