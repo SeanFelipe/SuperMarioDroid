@@ -1,6 +1,7 @@
 package srg.pmd;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -18,6 +19,9 @@ import android.graphics.Color;
 
 public class MainActivity extends Activity {
 
+    // TODO: make sure disposing of correct stuff when starting the JumpScreen intent.
+    // TODO: hardcoded string for MarioJumpScreen
+    
     final String TAG = "MarioActivity23May";
     final int CLOCK_TICK_MS = 100;
     final float FADE_INCREMENT = 0.075f;
@@ -66,7 +70,7 @@ public class MainActivity extends Activity {
         layout = findViewById(R.id.main_layout);
     }
 
-    private void setupGraphics() {
+    private void setupMushroom() {
         mushroom = new ImageView(this);
         mushroom.setContentDescription("mushroom_main");
         mushroom.setImageDrawable(getDrawable(R.drawable.mushroom_green));
@@ -77,9 +81,20 @@ public class MainActivity extends Activity {
         mushroom.setY(mushroomy);
 //        mushroom.setX(50);
 //        mushroom.setY(50);
-//        mushroom.setOnClickListener(new View.OnClickListener() {
+        mushroom.setOnClickListener(new View.OnClickListener() {
 
+                                        @Override
+                                        public void onClick(View v) {
+                                            Log.d(TAG, "mushroom onClick()");
+                                            startJumpScreen();
+                                        }
+                                    });
         layout.addView(mushroom);
+
+    }
+
+    private void setupGraphics() {
+        setupMushroom();
 
         alphaDescreasing = true;
         startTextAlpha = 1f;
@@ -138,5 +153,11 @@ public class MainActivity extends Activity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+    }
+
+    private void startJumpScreen () {
+        Intent intent = new Intent(this, MarioJumpScreen.class);
+        startActivity(intent);
+
     }
 }

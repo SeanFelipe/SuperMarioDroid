@@ -19,6 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MarioJumpScreen"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Jump Screen">
+        </activity>
     </application>
 
 </manifest>
