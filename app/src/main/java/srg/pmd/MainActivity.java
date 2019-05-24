@@ -13,11 +13,14 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.graphics.Color;
 
 
 public class MainActivity extends Activity {
 
-    final String TAG = "MarioMainActivity";
+    final String TAG = "MarioActivity23May";
+    final int CLOCK_TICK_MS = 100;
+    final float FADE_INCREMENT = 0.075f;
 
     Point screenSize;
     RelativeLayout layout;
@@ -25,6 +28,9 @@ public class MainActivity extends Activity {
     TextView welcomeText;
     TextView startText;
     ImageView mushroom;
+    float startTextAlpha;
+    int startTextColor;
+    boolean alphaDescreasing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +41,15 @@ public class MainActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.main_activity);
 
+
         setupScreen();
         setupGraphics();
+        clockTick();
     }
 
+    public Typeface getMarioFont() {
+        return marioFont;
+    }
 
     private void setupScreen() {
         screenSize = new Point();
@@ -70,10 +81,15 @@ public class MainActivity extends Activity {
 
         layout.addView(mushroom);
 
+        alphaDescreasing = true;
+        startTextAlpha = 1f;
+
         startText = new TextView(this);
+        startTextColor = Color.argb(startTextAlpha, 1f, 1f, 1f);
         startText.setContentDescription("start_text");
         startText.setTypeface(marioFont);
         startText.setTextSize(18);
+        startText.setTextColor(startTextColor);
         startText.setText("Press mushroom to begin");
         startText.measure(0,0);
         startText.setTextColor(Color.WHITE);
@@ -89,6 +105,35 @@ public class MainActivity extends Activity {
 
     }
 
+       private void clockTick() {
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        Log.d(TAG, "clockTick");
+                        update();
+                        clockTick();
+                    }
+                },
+                CLOCK_TICK_MS);
+    };
+
+    private void update() {
+
+        if ( startTextAlpha <= ( 0 + FADE_INCREMENT ) ) {
+            alphaDescreasing = false;
+        } else if ( startTextAlpha >= ( 1 - FADE_INCREMENT ) ) {
+            alphaDescreasing = true;
+        }
+
+        if ( alphaDescreasing ) {
+            startTextAlpha -= FADE_INCREMENT;
+        } else {
+            startTextAlpha += FADE_INCREMENT;
+        }
+
+        int newColor = Color.argb(startTextAlpha, 1f, 1f, 1f);
+        startText.setTextColor(newColor);
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
