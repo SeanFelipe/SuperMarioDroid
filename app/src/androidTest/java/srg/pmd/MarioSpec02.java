@@ -17,45 +17,35 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsString;
-
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MarioSpec01 {
+public class MarioSpec02 {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-
     @Test
-    public void jumpingMario() {
-        ViewInteraction mushroom = onView(allOf(withContentDescription("mushroom_main")));
-        mushroom.perform(click());
+    public void functional() {
+        ViewInteraction textView = onView(
+            allOf(withId(R.id.welcome), withText("Welcome to Super Mario Droid"), withContentDescription("welcome"),
+                childAtPosition(
+                    allOf(withId(R.id.main_layout),
+                        childAtPosition(
+                            withId(android.R.id.content),
+                            0)),
+                    0),
+                isDisplayed()));
+        textView.check(matches(withText("Welcome to Super Mario Droid")));
 
-        ViewInteraction mario = onView(allOf(withContentDescription("mario_small")));
-        Matcher scoreMatcher = allOf(withContentDescription("score"));
-        ViewInteraction score = onView(scoreMatcher);
-        score.check(matches(withText("0")));
-        mario.perform(click());
-        waitForScore(scoreMatcher, "1");
-        mario.perform(click());
-        waitForScore(scoreMatcher, "2");
-        mario.perform(click());
-        waitForScore(scoreMatcher, "3");
-    }
-
-    @Test
-    public void verifyStartScreen() {
-        ViewInteraction imageView = onView(
-            allOf(withContentDescription("mushroom_main"),
+        ViewInteraction textView2 = onView(
+            allOf(withText("Press mushroom to begin"), withContentDescription("start_text"),
                 childAtPosition(
                     allOf(withId(R.id.main_layout),
                         childAtPosition(
@@ -63,56 +53,28 @@ public class MarioSpec01 {
                             0)),
                     2),
                 isDisplayed()));
+        textView2.check(matches(withText("Press mushroom to begin")));
     }
 
 
     @Test
-    public void verifyHelloText() {
-        ViewInteraction TextView = onView(
-            allOf(withContentDescription("start_text"),
-                childAtPosition(
-                    allOf(withId(R.id.main_layout),
-                        childAtPosition(
-                            withId(android.R.id.content),
-                            0)),
-                    2),
-                isDisplayed()));
+    public void simpler() {
+        ViewInteraction textView = onView(allOf(withId(R.id.welcome)));
+        textView.check(matches(withText("Welcome to Super Mario Droid")));
     }
-
 
     @Test
-    public void textPresentShouldFail() {
-        ViewInteraction imageView = onView(
-            allOf(withContentDescription("mushroom_main"),
-                childAtPosition(
-                    allOf(withId(R.id.main_layout),
-                        childAtPosition(
-                            withId(android.R.id.content),
-                            0)),
-                    2),
-                isDisplayed()));
+    public void simplerFail() {
+        ViewInteraction textView = onView(allOf(withId(R.id.welcome)));
+        textView.check(matches(withText("the horror")));
     }
 
-
-    private static boolean doesScoreMatch(Matcher m, String expected) {
-        return allOf(m, withText(expected)).matches(m);
+    @Test
+    public void verifyIntent() {
+        ViewInteraction textView = onView(allOf(withId(R.id.welcome)));
+        textView.check(matches(withText("Welcome to Super Mario Droid")));
     }
 
-    private static boolean waitForScore(Matcher m, String expected) {
-        int MAX_ATTEMPTS = 10;
-        for (int i=0; i<MAX_ATTEMPTS; i++) {
-            if ( doesScoreMatch(m, expected) ) {
-                return true;
-            } else {
-                try {
-                    Thread.sleep(200);
-                } catch ( InterruptedException e ) {
-                    break;
-                }
-            }
-        }
-        return false;
-    }
 
     private static Matcher<View> childAtPosition(
         final Matcher<View> parentMatcher, final int position) {
